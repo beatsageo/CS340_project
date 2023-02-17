@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>Peoples Aristocratic Library</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <h1>Peoples Aristocratic Library: Library Items</h1>
+  <a class="top-page-links" href="index.html">Homepage</a>
+  <a class="top-page-links" href="library_items.html">Library_Items</a>
+  <a class="top-page-links" href="patrons.html">Patrons</a>
+  <a class="top-page-links" href="holds.html">Holds</a>
+  <a class="top-page-links" href="item_types.html">Item Types</a>
+
+<div id="browse" style="display: block">
+<br><br><br>
+<table border="10" cellpadding="5">
+  <tr>
+    <th><a href="#">New</a></th>
+    <th></th>
+    <th>id</th>
+    <th>title</th>
+    <th>author</th>
+    <th>year</th>
+    <th>genre</th>
+    <th>item_type</th>
+    <th>patron_id</th>
+  </tr>
+  <tr>
+    <td><a href="#">Edit</a></td>
+    <td><a href="#">Delete</a></td>
+    <td align="right" >1</td>
+    <td >test_title</td>
+    <td align="right" >test_author</td>
+    <td>test_year</td>
+    <td>test_genre</td>
+    <td>test_type</td>
+    <td>Null</td>
+  </tr>
+  <tr>
+    <td><a href="#">Edit</a></td>
+    <td><a href="#">Delete</a></td>
+    <td align="right" >2</td>
+    <td >test_title</td>
+    <td align="right" >test_author</td>
+    <td>test_year</td>
+    <td>test_genre</td>
+    <td>test_type</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td><a href="#">Edit</a></td>
+    <td><a href="#">Delete</a></td>
+    <td align="right">3</td>
+    <td >test_title</td>
+    <td align="right" >test_author</td>
+    <td>test_year</td>
+    <td>test_genre</td>
+    <td>test_type</td>
+    <td>1</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</div> <!-- browse -->
+<div id="insert" style="display: block">
+    <form id="addItem">
+        <legend><strong>Add Item</strong></legend>
+          <br>
+          <fieldset class="fields">
+            <label> Title: </label>
+            <br> 
+            <input align="bottom" type="text" name="Title">
+            <br>
+            <label> Author/Creator:</label>
+            <br> 
+            <input type="text" name="Author">
+            <br>
+            <label> Year:</label> 
+            <br>
+            <input type="text" name="Year">
+            <br>
+            <label> Genre: </label> 
+            <br>
+            <input type="text" name="Genre">
+            <br>
+            <label> Item Type: </label> 
+            <br>
+            <select name="Type">
+                <option value="1">Book</option>
+                <option value="2">Movie</option>
+              </select>
+              <br>
+            <label> Patron ID </label> 
+            <br>
+            <select name="Type">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+          </fieldset>
+          <br>
+          <input class="btn" type="submit" id="addItem" value="Add a Item">
+          <input class="btn" type="button" value="cancel">
+	</form> <!--add new Item-->
+</div><!-- insert -->
+
+<p>&nbsp;</p>
+<div id="update" style="display: block">
+  <form id="updateItem">
+      <legend><strong>Update Patron ID</strong></legend>
+      <br>
+          <fieldset class="fields">
+            <label> ID: </label> 1
+            <br>
+            <label> Patron ID </label> 
+            <select name="Patron ID">   	
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="3">Null</option>
+                </select>
+    </fieldset>
+    <br>
+    <input class="btn" type="submit" id="UpdateItem" value="Update Item In Database">
+          <input class="btn" type="button" value="cancel" >
+  </form> 
+</div><!-- update -->
+<p>&nbsp;</p>
+<div id="delete" style="display: block">
+  <form id="deleteItem">
+      <legend><strong>Delete Item</strong></legend>
+      <br>
+          <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <label> (Library Item ID#) </label> <input type="text" value="get_an_ID" name="name">
+            
+            
+    </fieldset>
+    <br>
+    <input class="btn" type="submit" id="DeleteItem" value="Delete Item">
+          <input class="btn" type="button" value="cancel" >
+  </form> 
+</div><!-- delete -->
+</body>
+</html>

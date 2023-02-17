@@ -1,0 +1,31 @@
+/* CSS Document */
+body {
+    background-color: rgb(137, 161, 228);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+h1 {
+    color: black;
+    text-align: left;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+table, th, td {
+    border: 1px solid; 
+    border-spacing: 2px;
+    background-color: blanchedalmond;
+    font-size: large;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+fieldset {
+    border-color: black;
+    border: 2px solid;
+  }
+
+.top-page-links {
+    background-color: #0d1847;
+    color: white;
+    padding: 15px 25px;
+    text-decoration: none;
+  }

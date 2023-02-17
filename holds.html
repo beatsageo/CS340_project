@@ -1,0 +1,108 @@
+<html>
+<head>
+<title> Holds</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+
+<body>
+  <h1>Peoples Aristocratic Library: Holds</h1>
+  <a class="top-page-links" href="index.html">Homepage</a>
+  <a class="top-page-links" href="library_items.html">Library_Items</a>
+  <a class="top-page-links" href="patrons.html">Patrons</a>
+  <a class="top-page-links" href="holds.html">Holds</a>
+  <a class="top-page-links" href="item_types.html">Item Types</a>
+    
+    <br> <br> <br>
+
+    <table border="10" cellpadding="5">
+        <tr>
+          <th><a href="#">New</a></th>
+          <th></th>
+          <th>Hold ID</th>
+          <th>Patron First Name</th>
+          <th>Patron Last Name</th>
+          <th>Library Item Title</th>
+          <th>Hold Date</th>
+          <th>Queue Position</th>
+        </tr>
+        <tr>
+          <td><a href="#">Decrement Queue Position</a></td>
+          <td><a href="#">Delete</a></td>
+          <td align="right" >1</td>
+          <td >First1</td>
+          <td align="right" >Last1</td>
+          <td>Title1</td>
+          <td>Date1</td>
+          <td>Position1</td>
+        </tr>
+        <tr>
+            <td><a href="#">Decrement Queue Position</a></td>
+            <td><a href="#">Delete</a></td>
+            <td align="right" >2</td>
+            <td >First2</td>
+            <td align="right" >Last2</td>
+            <td>Title2</td>
+            <td>Date2</td>
+            <td>Position2</td>
+          </tr>
+          <tr>
+            <td><a href="#">Decrement Queue Position</a></td>
+            <td><a href="#">Delete</a></td>
+            <td align="right" >3</td>
+            <td >First3</td>
+            <td align="right" >Last3</td>
+            <td>Title3</td>
+            <td>Date3</td>
+            <td>Position3</td>
+          </tr>
+      </table>
+      <p>&nbsp;</p>
+      </div> <!-- browse -->
+      <div id="insert" style="display: block">
+          <form id="addItem">
+              <legend><strong>Create Hold</strong></legend>
+                <br>
+                <fieldset class="fields">
+                  <label> Patron ID </label>
+                  <select name="Type">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    </select>
+                    <br>
+                  <label> Library Item ID</label>
+                  <select name="Type">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    </select>
+                  <br>
+
+
+                </fieldset>
+                <br>
+                <input class="btn" type="submit" id="addItem" value="Add a Item">
+                <input class="btn" type="button" value="cancel">
+          </form> <!--add new Item-->
+      </div><!-- insert -->
+      <br>
+      
+      
+      <p>&nbsp;</p>
+      <div id="delete" style="display: block">
+        <form id="deleteItem">
+            <legend><strong>Delete Hold</strong></legend>
+            <br>
+                <fieldset class="fields">
+                <p>Are you sure you wish to delete the following?</p>
+                <label> (Hold ID#) </label> <input type="text" value="get_an_ID" name="name">
+                  
+                  
+          </fieldset>
+          <br>
+          <input class="btn" type="submit" id="DeleteItem" value="Delete Item">
+                <input class="btn" type="button" value="cancel" >
+        </form> 
+      </div><!-- delete -->
+    
+</body>
+</html>
