@@ -81,7 +81,7 @@ values
 ('The Lion King','Animation', 'Roger Allers',  1994, 2, 5),
 ('Nevermind', 'Grunge', 'Nirvana', 1991, 3, Null),
 ("I'm Not Dead", 'Pop', 'Pink', 2006, 3, Null),
-('Are You Experienced','Rock', 1967, 3, 2 )
+('Are You Experienced','Rock', 'Jimi Hendrix', 1967, 3, 2 )
 ;
 
 INSERT INTO Patrons(first_name, last_name)
