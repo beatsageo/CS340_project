@@ -67,7 +67,9 @@ CREATE OR REPLACE TABLE Holds (
 INSERT INTO Item_Types (check_out_length, type, fine_per_day)
 values 
 (21, 'Book', 1000),
-(14, 'Movie', 2000);
+(14, 'Movie', 2000),
+(7, 'Music CD', 5000)
+;
 
 INSERT INTO Library_Items (title, genre, author, year, item_type_id, patron_id)
 values
@@ -76,7 +78,11 @@ values
 ('A Brief History of Time', 'Non Fiction', 'Stephen Hawking', 1998, 1, 3),
 ('The Godfather', 'Drama', 'Francis Ford Coppola', 1972, 2, 3),
 ('Inception', 'Action', 'Christopher Nolan', 2010, 2, 4),
-('The Lion King', 'Roger Allers', 'Animation', 1994, 2, 5);
+('The Lion King','Animation', 'Roger Allers',  1994, 2, 5),
+('Nevermind', 'Grunge', 'Nirvana', 1991, 3, Null),
+("I'm Not Dead", 'Pop', 'Pink', 2006, 3, Null),
+('Are You Experienced','Rock', 1967, 3, 2 )
+;
 
 INSERT INTO Patrons(first_name, last_name)
 values
