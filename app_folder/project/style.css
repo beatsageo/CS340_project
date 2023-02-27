@@ -1,0 +1,15 @@
+/* CSS Document */
+body {
+    background-color: goldenrod;
+  }
+  
+h1 {
+    color: black;
+    text-align: left;
+  }
+
+table, th, td {
+    border: 10px solid; 
+    padding: auto;
+
+  }

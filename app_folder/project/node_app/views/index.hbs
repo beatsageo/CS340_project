@@ -1,0 +1,85 @@
+<!-- index.hbs -->
+<h1>Peoples Aristocratic Library</h1>
+<p>If you see this text, the server is <strong>definitely</strong> working!</p>
+
+{{!-- Create a table --}}
+<table id = "library-items-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.item_id}}</td>
+            <td>{{this.title}}</td>
+            <td>{{this.genre}}</td>
+            <td>{{this.author}}</td>
+            <td>{{this.year}}</td>
+            <td>{{this.item_type_id}}</td>
+            <td>{{this.patron_id}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{!-- Form to add a record to the table  --}}
+<h2>Adding Data with AJAX</h2>
+<p>To add a new library item , please enter the below and click 'Submit'!</p>
+<div id="insert" style="display: block">
+    <form id="addItem">
+        <legend><strong>Add Item</strong></legend>
+          <br>
+          <fieldset class="fields">
+            <label> Title: </label>
+            <br> 
+            <input align="bottom" type="text" name="Title" id= "input-id">
+            <br>
+            <label> Author/Creator:</label>
+            <br> 
+            <input type="text" name="Author" id = "input-author">
+            <br>
+            <label> Year:</label> 
+            <br>
+            <input type="text" name="Year" id = "input-year">
+            <br>
+            <label> Genre: </label> 
+            <br>
+            <input type="text" name="Genre" id= "input-genre">
+            <br>
+            <label> Item Type: </label> 
+            <br>
+            <select name="Type" id="input-type">
+                <option value="1">Book</option>
+                <option value="2">Movie</option>
+                <option value="3">Music CD</option>
+              </select>
+              <br>
+            <label> Patron ID </label> 
+            <br>
+            <select name="Patron" id="input-patron">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+          </fieldset>
+          <br>
+          <input class="btn" type="submit" id="addItem" value="Add a Item">
+          <input class="btn" type="button" value="cancel">
+	</form> <!--add new Item-->
+</div><!-- insert -->
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_libraryItem.js"></script>
