@@ -1,0 +1,116 @@
+// Citation for the following code:
+// Date: 3/1/2023
+// Adapted from nodejs-starter-app with changes to apply to my database application
+//Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+
+<!-- index.hbs -->
+<h1>Library Items</h1>
+
+<h2> Links to Other Entities </h2>
+<a href="https://web.engr.oregonstate.edu/~dsouzam/index.html">Homepage</a>
+<a href="https://web.engr.oregonstate.edu/~dsouzam/patrons.html">Patrons</a>
+<a href="https://web.engr.oregonstate.edu/~dsouzam/holds.html">Holds</a>
+<a href="https://web.engr.oregonstate.edu/~dsouzam/item_types.html">Item Types</a>
+
+
+{{!-- Create a table --}}
+<table id = "library-item-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the Library_Items parameters --}}
+        {{#each data}}
+        <tr data-value = {{this.item_id}}>
+            <td>{{this.item_id}}</td>
+            <td>{{this.title}}</td>
+            <td>{{this.genre}}</td>
+            <td>{{this.author}}</td>
+            <td>{{this.year}}</td>
+            <td>{{this.item_type_id}}</td>
+            <td>{{this.patron_id}}</td>
+            <td><button onclick="deleteLibraryItem({{this.item_id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<script src="./js/delete_library_item.js"></script>
+
+<!-- /views/index.hbs -->
+
+{{!-- Form to add a record to the table  --}}
+<h2>Add a Library Item</h2>
+<p>To add a new item, please enter the following information below and click 'Submit'!</p>
+<form id="add-library-item-form-ajax">
+    <label for="input-title">Title: </label>
+    <input type="text" name="input-title" id="input-title">
+    
+    <label for="input-genre">Genre: </label>
+    <input type="text" name="input-genre" id="input-genre">
+
+    <label for="input-author">Author: </label>
+    <input type="text" name="input-author" id="input-author">
+
+    <label for="input-year">Year: </label>
+    <input type="number" name="input-year" id="input-year">
+
+    <select name="input-item_type_id" id="input-item_type_id">
+        <option value="">Select an Item Type</option>
+        {{#each item_types}}
+        <option value="{{this.item_type_id}}">{{this.type}}</option>
+        {{/each}}
+    </select>
+
+    <select name="input-patron_id" id="input-patron_id">
+        <option value="">Select a Patron</option>
+        {{#each patrons}}
+        <option value="{{this.patron_id}}">{{this.patron_id}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_library_item.js"></script>
+
+<h2>Updating Patron ID for a Library Item</h2>
+<p>To update a specific Library Item, select the Library Item ID from the drop-down menu on the left and the Patron ID from the drop down menu on the right</p>
+<form id="update-library-item-form-ajax">
+
+    <label for="input-item_id">Library Item ID: </label>
+    <select name="input-item_id" id="mySelect">
+        <option value="test">Select a Library Item</option>
+        {{#each data}}
+        <option value="{{this.item_id}}">{{this.title}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-patron_id">Patron ID: </label>
+    <select name="input-patron_id" id="input-patron_id-update">
+        <option>Select a Patron</option>
+        {{#each patrons}}
+        <option value="{{this.patron_id}}">{{this.patron_id}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_library_item.js"></script>

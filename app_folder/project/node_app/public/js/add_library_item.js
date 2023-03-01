@@ -1,42 +1,42 @@
 // Get the objects we need to modify
-let addItemForm = document.getElementById('add-libraryItem-ajax');
+let addItemForm = document.getElementById('add-library-item-form-ajax');
 
 // Modify the objects we need
-addPersonForm.addEventListener("submit", function (e) {
+addItemForm.addEventListener("submit", function (e) {
     
     // Prevent the form from submitting
     e.preventDefault();
 
     // Get form fields we need to get data from
     let inputTitle = document.getElementById("input-title");
+    let inputGenre = document.getElementById("input-genre");
     let inputAuthor = document.getElementById("input-author");
     let inputYear = document.getElementById("input-year");
-    let inputGenre = document.getElementById("input-genre");
-    let inputType = document.getElementById("input-type");
-    let inputPatron = document.getElementById("input-patron");
+    let inputType = document.getElementById("input-item-id");
+    let inputPatron = document.getElementById("input-patron-id");
 
 
     // Get the values from the form fields
     let titleValue = inputTitle.value;
+    let genreValue = inputGenre.value;
     let authorValue = inputAuthor.value;
     let yearValue = inputYear.value;
-    let genreValue = inputGenre.value;
     let typeValue = inputType.value;
     let patronValue = inputPatron.value;
 
     // Put our data we want to send in a javascript object
     let data = {
         title: titleValue,
+        genre: genreValue,
         author: authorValue,
         year: yearValue,
-        genre: genreValue,
-        item_type_id:typeValue,
+        item_type_id: typeValue,
         patron_id: patronValue
     }
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/add-libraryItem-ajax", true);
+    xhttp.open("POST", "/add-library-item-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
@@ -48,9 +48,9 @@ addPersonForm.addEventListener("submit", function (e) {
 
             // Clear the input fields for another transaction
             inputTitle.value = '';
+            inputGenre.value = '';
             inputAuthor.value = '';
             inputYear.value = '';
-            inputGenre.value = '';
             inputType.value = '';
             inputPatron.value = '';
         }
@@ -83,8 +83,8 @@ addRowToTable = (data) => {
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
     let titleCell = document.createElement("TD");
-    let genreCell = document.createElement("TD");
     let authorCell = document.createElement("TD");
+    let genreCell = document.createElement("TD");
     let yearCell = document.createElement("TD");
     let typeCell = document.createElement("TD");
     let patronCell = document.createElement("TD");
