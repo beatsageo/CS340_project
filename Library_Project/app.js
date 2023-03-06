@@ -13,7 +13,7 @@ var app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT = 9761;
+PORT = 9188;
 
 // Database
 var db = require('./database/db-connector');
@@ -158,6 +158,73 @@ app.put('/put-library-item-ajax', function(req,res,next){
                       })
                   }
       })});
+    // Route Handle for posting ADD ITEM TYPE
+      app.post('/add-item-type-ajax', function(req, res) 
+      {
+          // Capture the incoming data and parse it back to a JS object
+          let data = req.body;
+      
+          //NO NEED TO CAPTURE NULL VALUES
+      
+          // Create the query and run it on the database
+          query1 = `INSERT INTO Item_Types (type, checkout_length, fine_per_day) VALUES ('${data.type}', '${data.check_out_length}', '${data.fine_per_day})`;
+          db.pool.query(query1, function(error, rows, fields){
+      
+              // Check to see if there was an error
+              if (error) {
+      
+                  // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                  console.log(error)
+                  console.log('error from INSERT add-item-type-ajax')
+                  res.sendStatus(400);
+              }
+              else
+              {
+                  // If there was no error, perform a SELECT * on Library_Items
+                  query2 = `SELECT * FROM Item_Types;`;
+                  db.pool.query(query2, function(error, rows, fields){
+      
+                      // If there was an error on the second query, send a 400
+                      if (error) {
+                          
+                          // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                          console.log(error);
+                          console.log('error from SELECT add-item-type-ajax')
+                          res.sendStatus(400);
+                      }
+                      // If all went well, send the results of the query back.
+                      else
+                      {
+                          res.send(rows);
+                      }
+                  })
+              }
+          })
+      });
+
+      app.delete('/delete-item-type-ajax/', function(req,res,next){
+        let data = req.body;
+        let itemID = parseInt(data.item_id);
+        let deleteItem_Type = `DELETE FROM Library_Items WHERE item_id = ?`;
+      
+      
+              // Run the 1st query
+              db.pool.query(deleteItem_Type, [itemID], function(error, rows, fields){
+                  if (error) {
+      
+                  // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                  console.log(error);
+                  console.log('error from Item type delete route handler')
+                  res.sendStatus(400);
+                  }
+      
+                  else
+                  {
+                    res.sendStatus(204);
+                  }
+      })});
+
+
 
 /*
     LISTENER
