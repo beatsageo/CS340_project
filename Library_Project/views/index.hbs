@@ -6,14 +6,20 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 -->
 
 <!-- index.hbs -->
-<h1>Library Items</h1>
+<head>
+    <title>Library Items</title>
+    <link href="./css/style.css" rel="stylesheet" type="text/css" />
+</head>
 
-<h2> Links to Other Entities </h2>
-<a href="https://web.engr.oregonstate.edu/~dsouzam/index.html">Homepage</a>
-<a href="https://web.engr.oregonstate.edu/~dsouzam/patrons.html">Patrons</a>
-<a href="https://web.engr.oregonstate.edu/~dsouzam/holds.html">Holds</a>
-<a href="https://web.engr.oregonstate.edu/~dsouzam/item_types.html">Item Types</a>
+<body>
+    <h1>Peoples Aristocratic Library: Library Items</h1>
+    <a class="top-page-links" href="https://web.engr.oregonstate.edu/~dsouzam/index.html">Homepage</a>
+    <a class="top-page-links" href="http://flip1.engr.oregonstate.edu:9761/">Library Items</a>
+    <a class="top-page-links" href="https://web.engr.oregonstate.edu/~dsouzam/patrons.html">Patrons</a>
+    <a class="top-page-links" href="https://web.engr.oregonstate.edu/~dsouzam/holds.html">Holds</a>
+    <a class="top-page-links" href="https://web.engr.oregonstate.edu/~dsouzam/item_types.html">Item Types</a>
 
+<br><br><br>
 
 {{!-- Create a table --}}
 <table id = "library-item-table">
@@ -114,5 +120,6 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
     <input type="submit">
 
 </form>
+</body>
 
 <script src="./js/update_library_item.js"></script>
