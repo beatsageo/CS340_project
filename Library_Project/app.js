@@ -13,7 +13,7 @@ var app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT = 9188;
+PORT = 9500;
 
 // Database
 var db = require('./database/db-connector');
@@ -29,12 +29,18 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
 */
 app.get('/', function(req, res)
     {  
-        let query1 = "SELECT * FROM Library_Items;";               // Define our queries
+        return res.render('index');                                                                    
+    });
+
+
+app.get('/library_items', function(req, res)
+    {  
+        let query1 = "Select item_id, title, genre, author, year, type, first_name, last_name from Library_Items LEFT JOIN Patrons ON Library_Items.patron_id = Patrons.patron_id LEFT JOIN Item_Types on Library_Items.item_type_id = Item_Types.item_type_id;";               // Define our queries
 
         let query2 = "SELECT * from Patrons;"
 
         let query3 = "SELECT * from Item_Types;"
-
+        
         db.pool.query(query1, function(error, rows, fields){    // Execute the queries to create patron and item types dropdowns in Library_Items
 
             let library_items = rows;
@@ -46,11 +52,59 @@ app.get('/', function(req, res)
                 db.pool.query(query3, (error, rows, fields) => {
             
                     let item_types = rows;
-                    return res.render('index', {data: library_items, patrons: patrons, item_types: item_types});
+                    return res.render('library_items', {data: library_items, patrons: patrons, item_types: item_types});
                 })                 
             })                 
-        })                                                      
-    });                                                         
+        })               
+    });
+
+app.get('/item_types', function(req, res)
+    {  
+        let query1 = "SELECT * FROM Item_Types;";               // Define our queries
+
+        db.pool.query(query1, function(error, rows, fields){    // Execute the queries to create patron and item types dropdowns in Library_Items
+
+            let item_types = rows;
+            return res.render('item_types', {data: item_types});
+        })                                                                                     
+    });
+
+app.get('/patrons', function(req, res)
+    {  
+        let query1 = "SELECT * FROM Patrons;";               // Define our queries
+
+        db.pool.query(query1, function(error, rows, fields){    // Execute the queries to create patron and item types dropdowns in Library_Items
+
+            let patrons = rows;
+            return res.render('patrons', {data: patrons});
+        })                                                                                     
+    });
+
+app.get('/holds', function(req, res)
+{  
+    let query1 = "Select hold_id, first_name, last_name, title, hold_date, queue_position from Holds LEFT JOIN Patrons ON Patrons.patron_id = Holds.patron_id LEFT JOIN Library_Items on Library_Items.item_id = Holds.item_id;";               // Define our queries
+
+    let query2 = "SELECT * from Patrons;"
+
+    let query3 = "SELECT * from Library_Items;"
+    
+    db.pool.query(query1, function(error, rows, fields){    // Execute the queries to create patron and item types dropdowns in Library_Items
+
+        let holds = rows;
+
+        db.pool.query(query2, (error, rows, fields) => {
+
+            let patrons = rows;
+
+            db.pool.query(query3, (error, rows, fields) => {
+        
+                let library_items = rows;
+                return res.render('holds', {data: holds, patrons: patrons, library_items: library_items});
+            })                 
+        })                 
+    })               
+});
+
 
 app.post('/add-library-item-ajax', function(req, res) 
     {
@@ -98,6 +152,124 @@ app.post('/add-library-item-ajax', function(req, res)
         })
     });
 
+    app.post('/add-hold-ajax', function(req, res) 
+    {
+        // Capture the incoming data and parse it back to a JS object
+        let data = req.body;
+        console.log(data);
+    
+        // Create the query and run it on the database
+        query1 = `INSERT INTO Holds (patron_id, item_id, hold_date, queue_position) VALUES ('${data.patron_id}', '${data.item_id}', '${data.hold_date}', ${data.queue_position})`;
+        db.pool.query(query1, function(error, rows, fields){
+    
+            // Check to see if there was an error
+            if (error) {
+    
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error)
+                res.sendStatus(400);
+            }
+            else
+            {
+                // If there was no error, perform a SELECT * on Library_Items
+                query2 = `SELECT * FROM Holds;`;
+                db.pool.query(query2, function(error, rows, fields){
+    
+                    // If there was an error on the second query, send a 400
+                    if (error) {
+                        
+                        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    // If all went well, send the results of the query back.
+                    else
+                    {
+                        res.send(rows);
+                    }
+                })
+            }
+        })
+    });
+    app.post('/add-patron-ajax', function(req, res) 
+    {
+        // Capture the incoming data and parse it back to a JS object
+        let data = req.body;
+    
+        // Create the query and run it on the database
+        console.log(data);
+        query1 = `INSERT INTO Patrons (first_name, last_name, fine) VALUES ('${data.first_name}', '${data.last_name}', '${data.fine}')`;
+        db.pool.query(query1, function(error, rows, fields){
+    
+            // Check to see if there was an error
+            if (error) {
+    
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error)
+                res.sendStatus(400);
+            }
+            else
+            {
+                // If there was no error, perform a SELECT * on Library_Items
+                query2 = `SELECT * FROM Patrons;`;
+                db.pool.query(query2, function(error, rows, fields){
+    
+                    // If there was an error on the second query, send a 400
+                    if (error) {
+                        
+                        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    // If all went well, send the results of the query back.
+                    else
+                    {
+                        res.send(rows);
+                    }
+                })
+            }
+        })
+    });
+    app.post('/add-item-type-ajax', function(req, res) 
+    {
+        // Capture the incoming data and parse it back to a JS object
+        let data = req.body;
+    
+        // Create the query and run it on the database
+        console.log(data);
+        query1 = `INSERT INTO Item_Types (type, check_out_length, fine_per_day) VALUES ('${data.type}', '${data.check_out_length}', '${data.fine_per_day}')`;
+        db.pool.query(query1, function(error, rows, fields){
+    
+            // Check to see if there was an error
+            if (error) {
+    
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error)
+                res.sendStatus(400);
+            }
+            else
+            {
+                // If there was no error, perform a SELECT * on Library_Items
+                query2 = `SELECT * FROM Item_Types;`;
+                db.pool.query(query2, function(error, rows, fields){
+    
+                    // If there was an error on the second query, send a 400
+                    if (error) {
+                        
+                        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    // If all went well, send the results of the query back.
+                    else
+                    {
+                        res.send(rows);
+                    }
+                })
+            }
+        })
+    });
+
 app.delete('/delete-library-item-ajax/', function(req,res,next){
         let data = req.body;
         let itemID = parseInt(data.item_id);
@@ -119,7 +291,53 @@ app.delete('/delete-library-item-ajax/', function(req,res,next){
                   }
       })});
 
-app.put('/put-library-item-ajax', function(req,res,next){
+app.delete('/delete-hold-ajax/', function(req,res,next){
+let data = req.body;
+let holdID = parseInt(data.hold_id);
+let deleteHold = `DELETE FROM Holds WHERE item_id = ?`;
+
+
+        // Run the 1st query
+        db.pool.query(deleteHold, [holdID], function(error, rows, fields){
+            if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+            }
+
+            else
+            {
+            res.sendStatus(204);
+            }
+})});
+
+app.put('/put-patron-ajax', function(req,res,next){
+        let data = req.body;
+        let patron = parseInt(data.patron_id);
+        let fine = parseInt(data.fine);
+      
+        queryUpdateFine = `UPDATE Patrons SET fine = ? WHERE Patrons.patron_id = ?`;
+      
+              // Run the 1st query
+              db.pool.query(queryUpdateFine, [fine, patron], function(error, rows, fields){
+                  if (error) {
+      
+                  // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                  console.log(error);
+                  res.sendStatus(400);
+                  }
+      
+                  // If there was no error, we run our second query and return that data so we can use it to update the people's
+                  // table on the front-end
+                  else
+                  {
+                              res.send(rows);
+                          }
+
+      })});
+
+      app.put('/put-library-item-ajax', function(req,res,next){
         let data = req.body;
       
         let item = parseInt(data.item_id);
@@ -158,72 +376,6 @@ app.put('/put-library-item-ajax', function(req,res,next){
                       })
                   }
       })});
-    // Route Handle for posting ADD ITEM TYPE
-      app.post('/add-item-type-ajax', function(req, res) 
-      {
-          // Capture the incoming data and parse it back to a JS object
-          let data = req.body;
-      
-          //NO NEED TO CAPTURE NULL VALUES
-      
-          // Create the query and run it on the database
-          query1 = `INSERT INTO Item_Types (type, checkout_length, fine_per_day) VALUES ('${data.type}', '${data.check_out_length}', '${data.fine_per_day})`;
-          db.pool.query(query1, function(error, rows, fields){
-      
-              // Check to see if there was an error
-              if (error) {
-      
-                  // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                  console.log(error)
-                  console.log('error from INSERT add-item-type-ajax')
-                  res.sendStatus(400);
-              }
-              else
-              {
-                  // If there was no error, perform a SELECT * on Library_Items
-                  query2 = `SELECT * FROM Item_Types;`;
-                  db.pool.query(query2, function(error, rows, fields){
-      
-                      // If there was an error on the second query, send a 400
-                      if (error) {
-                          
-                          // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                          console.log(error);
-                          console.log('error from SELECT add-item-type-ajax')
-                          res.sendStatus(400);
-                      }
-                      // If all went well, send the results of the query back.
-                      else
-                      {
-                          res.send(rows);
-                      }
-                  })
-              }
-          })
-      });
-
-      app.delete('/delete-item-type-ajax/', function(req,res,next){
-        let data = req.body;
-        let itemID = parseInt(data.item_id);
-        let deleteItem_Type = `DELETE FROM Library_Items WHERE item_id = ?`;
-      
-      
-              // Run the 1st query
-              db.pool.query(deleteItem_Type, [itemID], function(error, rows, fields){
-                  if (error) {
-      
-                  // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                  console.log(error);
-                  console.log('error from Item type delete route handler')
-                  res.sendStatus(400);
-                  }
-      
-                  else
-                  {
-                    res.sendStatus(204);
-                  }
-      })});
-
 
 
 /*

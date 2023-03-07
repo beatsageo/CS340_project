@@ -5,14 +5,6 @@
 </head>
 
 <body>
-    <h1>Peoples Aristocratic Library: Library Items</h1>
-    <a class="top-page-links" href="https://web.engr.oregonstate.edu/~dsouzam/index.html">Homepage</a>
-    <a class="top-page-links" href="http://flip1.engr.oregonstate.edu:9761/">Library Items</a>
-    <a class="top-page-links" href="https://web.engr.oregonstate.edu/~dsouzam/patrons.html">Patrons</a>
-    <a class="top-page-links" href="https://web.engr.oregonstate.edu/~dsouzam/holds.html">Holds</a>
-    <a class="top-page-links" href="https://web.engr.oregonstate.edu/~dsouzam/item_types.html">Item Types</a>
-
-<br><br><br>
 
 {{!-- Create a table --}}
 <table id = "item-types-table">
@@ -28,7 +20,6 @@
                 {{@key}}
             </th>
             {{/each}}
-            <th>delete</th>
         </tr>
     </thead>
 
@@ -37,24 +28,22 @@
 
         {{!-- For each row, print the Library_Items parameters --}}
         {{#each data}}
-        <tr data-value = {{this.item_id}}>
+        <tr data-value = {{this.item_type_id}}>
             <td>{{this.item_type_id}}</td>
             <td>{{this.type}}</td>
             <td>{{this.check_out_length}}</td>
             <td>{{this.fine_per_day}}</td>
-            <td><button onclick="deleteItemType({{this.item_type_id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 
-<script src="./js/delete_item-type.js"></script>
 <!-- /views/library_items.hbs -->
 
 {{!-- Form to add a library item type record to the table  --}}
-<h2>Add a Library Item Type </h2>
+<h2>Add an Item Type </h2>
 <p>To add a new type, please enter the following information below and click 'Submit'!</p>
-<form id="add-library-item-type-form-ajax">
+<form id="add-item-type-form-ajax">
     <label for="input-type">Type: </label>
     <input type="text" name="input-type" id="input-type">
     

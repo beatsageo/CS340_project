@@ -1,0 +1,87 @@
+<!-- item_types.hbs -->
+<head>
+    <title>Holds</title>
+    <link href="./css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+{{!-- Create a table --}}
+<table id = "holds-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the Library_Items parameters --}}
+        {{#each data}}
+        <tr data-value = {{this.hold_id}}>
+            <td>{{this.hold_id}}</td>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+            <td>{{this.title}}</td>
+            <td>{{this.hold_date}}</td>
+            <td>{{this.queue_position}}</td>
+            <td><button onclick="deleteHold({{this.hold_id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<script src="./js/delete_hold.js"></script>
+<!-- /views/library_items.hbs -->
+
+{{!-- Form to add a Patron record to the table  --}}
+<h2>Add a Hold </h2>
+<p>To add a Hold, please enter the following information below and click 'Submit'!</p>
+<form id="add-patron-form-ajax">
+    <label for="input-first-name">First Name: </label>
+    <input type="text" name="input-first-name" id="input-first-name">
+    
+    <label for="input-last-name">Last Name: </label>
+    <input type="text" name="input-last-name" id="input-last-name">
+
+    <label for="input-fine">Fine: </label>
+    <input type="number" name="input-fine" id="input-fine">
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_patron.js"></script>
+
+<h2>Updating Hold Position</h2>
+<p>To update the position select the hold_id from the drop-down menu on the left and enter the new position on the right</p>
+<form id="update-hold-form-ajax">
+
+    <label for="input-hold_id">Hold ID: </label>
+    <select name="input-hold_id" id="mySelect">
+        <option value="test">Select a Hold</option>
+        {{#each data}}
+        <option value="{{this.hold_id}}">{{this.hold_id}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-queue-position">Queue Position: </label>
+    <input type="number" name="input-queue-position" id="input-queue-position">
+
+    <input type="submit">
+
+</form>
+</body>
+
+<script src="./js/update_hold.js"></script>

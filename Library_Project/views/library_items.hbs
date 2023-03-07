@@ -12,15 +12,6 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 </head>
 
 <body>
-    <h1>Peoples Aristocratic Library: Library Items</h1>
-    <a class="top-page-links" href="https://web.engr.oregonstate.edu/~dsouzam/index.html">Homepage</a>
-    <a class="top-page-links" href="http://flip1.engr.oregonstate.edu:9761/">Library Items</a>
-    <a class="top-page-links" href="https://web.engr.oregonstate.edu/~dsouzam/patrons.html">Patrons</a>
-    <a class="top-page-links" href="https://web.engr.oregonstate.edu/~dsouzam/holds.html">Holds</a>
-    <a class="top-page-links" href="http://flip1.engr.oregonstate.edu:9761/">Item Types</a>
-
-<br><br><br>
-
 {{!-- Create a table --}}
 <table id = "library-item-table">
 
@@ -50,8 +41,10 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
             <td>{{this.genre}}</td>
             <td>{{this.author}}</td>
             <td>{{this.year}}</td>
-            <td>{{this.item_type_id}}</td>
-            <td>{{this.patron_id}}</td>
+            <td>{{this.type}}</td>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+            
             <td><button onclick="deleteLibraryItem({{this.item_id}})">Delete</button></td>
         </tr>
         {{/each}}
@@ -88,7 +81,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
     <select name="input-patron_id" id="input-patron_id">
         <option value="">Select a Patron</option>
         {{#each patrons}}
-        <option value="{{this.patron_id}}">{{this.patron_id}}</option>
+        <option value="{{this.patron_id}}">{{this.first_name}} {{this.last_name}}</option>
         {{/each}}
     </select>
 
@@ -102,7 +95,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 <p>To update a specific Library Item, select the Library Item ID from the drop-down menu on the left and the Patron ID from the drop down menu on the right</p>
 <form id="update-library-item-form-ajax">
 
-    <label for="input-item_id">Library Item ID: </label>
+    <label for="input-item_id">Library Item Title: </label>
     <select name="input-item_id" id="mySelect">
         <option value="test">Select a Library Item</option>
         {{#each data}}
@@ -110,11 +103,11 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
         {{/each}}
     </select>
 
-    <label for="input-patron_id">Patron ID: </label>
+    <label for="input-patron_id">Patron Name: </label>
     <select name="input-patron_id" id="input-patron_id-update">
         <option>Select a Patron</option>
         {{#each patrons}}
-        <option value="{{this.patron_id}}">{{this.patron_id}}</option>
+        <option value="{{this.patron_id}}">{{this.first_name}} {{this.last_name}}</option>
         {{/each}}
     </select>
     <input type="submit">
