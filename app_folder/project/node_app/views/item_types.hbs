@@ -1,0 +1,60 @@
+<!-- item_types.hbs -->
+<head>
+    <title>Item Types</title>
+    <link href="./css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+{{!-- Create a table --}}
+<table id = "item-types-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the Library_Items parameters --}}
+        {{#each data}}
+        <tr data-value = {{this.item_type_id}}>
+            <td>{{this.item_type_id}}</td>
+            <td>{{this.type}}</td>
+            <td>{{this.check_out_length}}</td>
+            <td>{{this.fine_per_day}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<!-- /views/library_items.hbs -->
+
+{{!-- Form to add a library item type record to the table  --}}
+<h2>Add an Item Type </h2>
+<p>To add a new type, please enter the following information below and click 'Submit'!</p>
+<form id="add-item-type-form-ajax">
+    <label for="input-type">Type: </label>
+    <input type="text" name="input-type" id="input-type">
+    
+    <label for="input-checkout-length">Checkout Length: </label>
+    <input type="number" name="input-checkout-length" id="input-checkout-length">
+
+    <label for="input-fine-per-day">Fine Per Day: </label>
+    <input type="number" name="input-fine-per-day" id="input-fine-per-day">
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_item_type.js"></script>

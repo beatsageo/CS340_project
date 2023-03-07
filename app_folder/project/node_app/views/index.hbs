@@ -1,70 +1,15 @@
+<!-- 
+Citation for the following code:
+Date: 3/1/2023
+Adapted from nodejs-starter-app with changes to apply to my database application
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+-->
+
 <!-- index.hbs -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<h1>Peoples Aristocratic Library</h1>
+<head>
+    <title>Library Items</title>
+    <link href="./css/style.css" rel="stylesheet" type="text/css" />
+</head>
 
-{{!-- Create a table --}}
-<table id = "library-items-table">
-
-    {{!-- Header section --}}
-    <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
-            <th>delete</th>
-        </tr>
-    </thead>
-
-    {{!-- Body section --}}
-    <tbody>
-
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
-        {{#each data}}
-        <tr>
-            <td>{{this.item_id}}</td>
-            <td>{{this.title}}</td>
-            <td>{{this.genre}}</td>
-            <td>{{this.author}}</td>
-            <td>{{this.year}}</td>
-            <td>{{this.item_type_id}}</td>
-            <td>{{this.patron_id}}</td>
-            <td><button onclick="deleteItem({{this.item_id}})">Delete</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-<script src="../public/js/delete_item.js"></script>
-
-{{!-- Form to add a record to the table  --}}
-
-<p>To add a new library item , please enter the below and click 'Submit'!</p>
-<form id="add-library-item-form-ajax">
-    <label for="title">Title: </label>
-    <input type="text" name="title" id="input-title">
-
-    <label for="genre">Genre: </label>
-    <input type="text" name="genre" id="input-genre">
-
-    <label for="author">Author/Creator: </label>
-    <input type="text" name="author" id="input-author">
-
-    <label for="year">Year: </label>
-    <input type="number" name="year" id="input-year">
-
-    <label for="item_type_id">Item Type ID: </label>
-    <input type="number" name="item_type_id" id="input-item-id">
-
-    <label for="patron_id">Patron ID: </label>
-    <input type="number" name="patron_id" id="input-patron-id">
-
-    <input type= "submit">
-
-</form>
-
-{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
-<script src="../public/js/add_library_item.js"></script>
+<body>
+</body>
