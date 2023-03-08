@@ -51,8 +51,8 @@ CREATE OR REPLACE TABLE Library_Items (
 -- -----------------------------------------------------
 CREATE OR REPLACE TABLE Holds (
   hold_id INT NOT NULL UNIQUE AUTO_INCREMENT,
-  hold_date DATETIME NOT NULL,
-  queue_position INT NOT NULL,
+  hold_date DATETIME NOT NULL, --DEFAULT GETDATE(),
+  queue_position INT NULL,  --need to implement a way to estabilsh a queue, 
   item_id INT NOT NULL,
   patron_id INT NOT NULL,
   PRIMARY KEY (hold_id),

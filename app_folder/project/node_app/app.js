@@ -13,7 +13,7 @@ var app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT = 9588;
+PORT = 9598;
 
 // Database
 var db = require('./database/db-connector');
@@ -159,7 +159,7 @@ app.post('/add-library-item-ajax', function(req, res)
         console.log(data);
     
         // Create the query and run it on the database
-        query1 = `INSERT INTO Holds (patron_id, item_id, hold_date, queue_position) VALUES ('${data.patron_id}', '${data.item_id}', '${data.hold_date}', ${data.queue_position})`;
+        query1 = `INSERT INTO Holds (patron_id, item_id, queue_position, hold_date) VALUES ('${data.patron_id}', '${data.item_id}', '${data.queue_position}', '${data.hold_date}')`;
         db.pool.query(query1, function(error, rows, fields){
     
             // Check to see if there was an error
@@ -167,6 +167,7 @@ app.post('/add-library-item-ajax', function(req, res)
     
                 // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
                 console.log(error)
+                console.log("error from add-hold-ajax")
                 res.sendStatus(400);
             }
             else
@@ -292,9 +293,11 @@ app.delete('/delete-library-item-ajax/', function(req,res,next){
       })});
 
 app.delete('/delete-hold-ajax/', function(req,res,next){
-let data = req.body;
-let holdID = parseInt(data.hold_id);
-let deleteHold = `DELETE FROM Holds WHERE item_id = ?`;
+        let data = req.body;
+        console.log(data);
+        let holdID = parseInt(data.hold_id);
+        console.log(holdID);
+        let deleteHold = `DELETE FROM Holds WHERE hold_id = ?`;
 
 
         // Run the 1st query

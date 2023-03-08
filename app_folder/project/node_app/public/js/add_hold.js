@@ -13,25 +13,29 @@ addHoldForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputFirstName = document.getElementById("input-first-name");
-    let inputLastName = document.getElementById("input-last-name");
-    let inputFine = document.getElementById("input-fine");
+    let inputName = document.getElementById("input-patron_id");
+    let inputTitle = document.getElementById("input-library_items");
+    console.log(inputTitle);
 
     // Get the values from the form fields
-    let firstNameValue = inputFirstName.value;
-    let lastNameValue = inputLastName.value;
-    let fineValue = inputFine.value;
+    let patronValue = inputName.value;
+    let titleValue = inputTitle.value;
+    console.log(patronValue);
+    console.log(titleValue);
+    
+    let format_date = new Date().toISOString().slice(0, 19).replace('T', ' ').replace('Z', '0');
 
     // Put our data we want to send in a javascript object
     let data = {
-        first_name: firstNameValue,
-        last_name: lastNameValue,
-        fine: fineValue
+        item_id: titleValue,  //Library Item ID
+        patron_id: patronValue,  /// Patron ID
+        queue_position: "0",  ///hard coded for now
+        hold_date: format_date,
     }
-    
+    console.log(data);
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/add-patron-ajax", true);
+    xhttp.open("POST", "/add-hold-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
@@ -42,9 +46,9 @@ addHoldForm.addEventListener("submit", function (e) {
             addRowToTable(xhttp.response);
 
             // Clear the input fields for another transaction
-            inputFirstName.value = '';
-            inputLastName.value = '';
-            inputFine.value = '';
+            inputName.value = '';
+            inputTitle.value = '';
+            
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
@@ -58,50 +62,61 @@ addHoldForm.addEventListener("submit", function (e) {
 
 
 // Creates a single row from an Object representing a single record from 
-// Patrons
+// Holds
 addRowToTable = (data) => {
-
+    console.log('add to row data');
+    console.log(data);
     // Get a reference to the current table on the page and clear it out.
-    let currentTable = document.getElementById("patrons-table");
+    let currentTable = document.getElementById("holds-table");
 
     // Get the location where we should insert the new row (end of table)
     let newRowIndex = currentTable.rows.length;
 
     // Get a reference to the new row from the database query (last object)
     let parsedData = JSON.parse(data);
+    console.log(parsedData);
     let newRow = parsedData[parsedData.length - 1]
-
+    console.log('newrow data');
+    console.log(newRow);
     // Create a row and 7 cells
     let row = document.createElement("TR");
-    let patronIDCell = document.createElement("TD");
+    let holdIDCell = document.createElement("TD");
     let firstNameCell = document.createElement("TD");
     let lastNameCell = document.createElement("TD");
-    let fineCell = document.createElement("TD");
+    let titleCell = document.createElement("TD");
+    let holdDateCell = document.createElement("TD");
+    let queuePositionCell = document.createElement("TD");
 
     // Create a delete button for eacy data entry
     let deleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
-    patronIDCell.innerText = newRow.patron_id;
+    holdIDCell.innerText = newRow.hold_id;
     firstNameCell.innerText = newRow.first_name;
     lastNameCell.innerText = newRow.last_name;
-    fineCell.innerText = newRow.fine;
+    titleCell.innerText = newRow.title;
+    holdDateCell.innerText = newRow.hold_date;
+    queuePositionCell.innerText = newRow.queue_position;
 
     // add an event handler for the delete button
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
-        deleteLibraryItem(newRow.patron_id);
+        deleteHold(newRow.hold_id);
     };
 
     // Add the cells to the row 
-    row.appendChild(patronIDCell);
+    row.appendChild(holdIDCell);
     row.appendChild(firstNameCell);
     row.appendChild(lastNameCell);
-    row.appendChild(fineCell);
+    console.log(titleCell.innerText);
+    row.appendChild(titleCell);
+    console.log(holdDateCell);
+    row.appendChild(holdDateCell);  ////not an object?
+    row.appendChild(queuePositionCell);
 
     // Add a row attribute so the deleteRow function can find a newly added row
-    row.setAttribute('data-value', newRow.patron_id);
+    row.setAttribute('data-value', newRow.hold_id);
     
     // Add the row to the table
     currentTable.appendChild(row);
@@ -110,11 +125,11 @@ addRowToTable = (data) => {
     
     // Find drop down menu, create a new option, fill data in the option,
     // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
-    let selectMenu = document.getElementById("mySelect");
-    let option = document.createElement("option");
-    option.text = newRow.patron_id;
-    option.value = newRow.patron_id;
-    selectMenu.add(option);
+    // let selectMenu = document.getElementById("mySelect");
+    // let option = document.createElement("option");
+    // option.text = newRow.patron_id;
+    // option.value = newRow.patron_id;
+    // selectMenu.add(option);
     location.reload(true);
     // End of new step 8 code.
 }
