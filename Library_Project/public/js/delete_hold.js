@@ -8,7 +8,7 @@ function deleteHold(holdID) {
     let data = {
         hold_id: holdID
     };
-
+    console.log(data);
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("DELETE", "/delete-hold-ajax", true);
@@ -17,7 +17,7 @@ function deleteHold(holdID) {
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 204) {
-
+            console.log("ready");
             // Add the new data to the table
             deleteRow(holdID);
 
@@ -32,7 +32,7 @@ function deleteHold(holdID) {
 
 function deleteRow(holdID){
 
-    let table = document.getElementById("hold-table");
+    let table = document.getElementById("holds-table");
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows
        //rows would be accessed using the "row" variable assigned in the for loop
