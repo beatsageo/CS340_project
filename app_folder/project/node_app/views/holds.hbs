@@ -46,7 +46,7 @@
 <!-- /views/holds.hbs -->
 
 {{!-- Form to add a hold record to a library item  --}}
-<h2>Add a Hold </h2>
+<h1>Add a Hold </h1>
 <p>To add a Hold, please enter the following information below and click 'Submit'!</p>
 <form id="add-hold-form-ajax">
 
@@ -70,3 +70,33 @@
 </body>
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_hold.js"></script>
+
+<h2>Updating Queue Position for a Hold</h2>
+<p>To update a Holds's possion, select the hold ID from the dropdown and choose a position</p>
+<form id="update-hold-queue-form-ajax">
+
+    <label for="input-hold_id">Library Item Title: </label>
+    <select name="input-hold_id" id="input-hold_id">
+        <option value="test">Select a Hold ID</option>
+        {{#each data}}
+        <option value="{{this.hold_id}}">{{this.hold_id}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-queue_position">Queue Position: </label>
+    <select name="input-queue_position" id="input-queue_position">
+        <option value = NULL >Select A New Position</option>
+        <option value = 1 >1</option>
+        <option value = 2 >2</option>
+        <option value = 3 >3</option>
+        <option value = 4 >4</option>
+        <option value = 5 >5</option>
+        <option value = 6 >6</option>
+
+    </select>
+    <input type="submit">
+
+</form>
+</body>
+
+<script src="./js/update_hold.js"></script>

@@ -29,7 +29,7 @@ addHoldForm.addEventListener("submit", function (e) {
     let data = {
         item_id: titleValue,  //Library Item ID
         patron_id: patronValue,  /// Patron ID
-        queue_position: "0",  ///hard coded for now
+        queue_position: "1",  ///hard coded for now
         hold_date: format_date,
     }
     console.log(data);

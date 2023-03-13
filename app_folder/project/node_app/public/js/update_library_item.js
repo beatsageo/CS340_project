@@ -1,11 +1,7 @@
-//const { NULL } from "mysql/lib/protocol/constants/types";
-
 // Citation for the following code:
 // Date: 3/1/2023
 // Adapted from nodejs-starter-app with changes to apply to my database application
 //Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
-
-
 
 // Get the objects we need to modify
 let updateLibraryItemForm = document.getElementById('update-library-item-form-ajax');
@@ -19,19 +15,11 @@ updateLibraryItemForm.addEventListener("submit", function (e) {
     // Get form fields we need to get data from
     let inputItemID = document.getElementById("mySelect");
     let inputPatronID = document.getElementById("input-patron_id-update");
-    console.log(inputPatronID);
 
     // Get the values from the form fields
     let itemIDValue = inputItemID.value;
     let patronIDValue = inputPatronID.value;
-    console.log(inputPatronID.value);
 
-    //added to retuen a NULL value if dopdown is not selected
-    if (patronIDValue = 9999) 
-    {
-        patronIDValue = {patron_id: 9999, first_name: null, last_name:null};
-    }
-    console.log(patronIDValue);
     // Put our data we want to send in a javascript object
     let data = {
         item_id: itemIDValue,
@@ -64,36 +52,13 @@ updateLibraryItemForm.addEventListener("submit", function (e) {
 
 function updateRow(data, itemID){
     let parsedData = JSON.parse(data);
-    console.log(parsedData);
+
     let table = document.getElementById("library-item-table");
 
-    if(data[1].patron_id = 9999){
-        
-            for (let i = 0, row; row = table.rows[i]; i++){
-                if (table.rows[i].getAttribute("data-value") == itemID){
-            // Get the location of the row where we found the matching item_id
-            let updateRowIndex = table.getElementsByTagName("tr")[i];
-
-            // Get td of patron_id
-            let td1 = updateRowIndex.getElementsByTagName("td")[6];
-            let td2 = updateRowIndex.getElementsByTagName("td")[7];
-
-            // Reassign patron_id to our value we updated to
-            td1.innerHTML = data[1].first_name;
-            td2.innerHTML = data[1].last_name;
-            }
-        }
-       }
-    
-    
-    else {
-    
     for (let i = 0, row; row = table.rows[i]; i++) {
-    //iterate through rows
-    //rows would be accessed using the "row" variable assigned in the for loop
-    
-    
-        if (table.rows[i].getAttribute("data-value") == itemID) {
+       //iterate through rows
+       //rows would be accessed using the "row" variable assigned in the for loop
+       if (table.rows[i].getAttribute("data-value") == itemID) {
 
             // Get the location of the row where we found the matching item_id
             let updateRowIndex = table.getElementsByTagName("tr")[i];
@@ -103,11 +68,16 @@ function updateRow(data, itemID){
             let td2 = updateRowIndex.getElementsByTagName("td")[7];
 
             // Reassign patron_id to our value we updated to
-            td1.innerHTML = parsedData[0].first_name;
-            td2.innerHTML = parsedData[0].last_name;
+            if(typeof parsedData[0] !== 'undefined'){
+                td1.innerHTML = parsedData[0].first_name;
+                td2.innerHTML = parsedData[0].last_name;
+            } else {
+                td1.innerHTML = "";
+                td2.innerHTML = "";
+            }
+       }
     }
-}
+ 
+   
 
-    
-}
 }
