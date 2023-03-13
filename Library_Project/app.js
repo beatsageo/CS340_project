@@ -156,7 +156,6 @@ app.post('/add-library-item-ajax', function(req, res)
     {
         // Capture the incoming data and parse it back to a JS object
         let data = req.body;
-        console.log(data);
     
         // Create the query and run it on the database
         query1 = `INSERT INTO Holds (patron_id, item_id, queue_position, hold_date) VALUES ('${data.patron_id}', '${data.item_id}', '${data.queue_position}', '${data.hold_date}')`;
@@ -198,7 +197,6 @@ app.post('/add-library-item-ajax', function(req, res)
         let data = req.body;
     
         // Create the query and run it on the database
-        console.log(data);
         query1 = `INSERT INTO Patrons (first_name, last_name, fine) VALUES ('${data.first_name}', '${data.last_name}', '${data.fine}')`;
         db.pool.query(query1, function(error, rows, fields){
     
@@ -237,7 +235,6 @@ app.post('/add-library-item-ajax', function(req, res)
         let data = req.body;
     
         // Create the query and run it on the database
-        console.log(data);
         query1 = `INSERT INTO Item_Types (type, check_out_length, fine_per_day) VALUES ('${data.type}', '${data.check_out_length}', '${data.fine_per_day}')`;
         db.pool.query(query1, function(error, rows, fields){
     
@@ -294,9 +291,7 @@ app.delete('/delete-library-item-ajax/', function(req,res,next){
 
 app.delete('/delete-hold-ajax/', function(req,res,next){
         let data = req.body;
-        console.log(data);
         let holdID = parseInt(data.hold_id);
-        console.log(holdID);
         let deleteHold = `DELETE FROM Holds WHERE hold_id = ?`;
 
 
@@ -339,18 +334,33 @@ app.put('/put-patron-ajax', function(req,res,next){
                           }
 
       })});
-
+      
       app.put('/put-library-item-ajax', function(req,res,next){
         let data = req.body;
-      
         let item = parseInt(data.item_id);
         let patron = parseInt(data.patron_id);
-        if (patron == NaN){
-            patron = "NULL";
-        }
+        
+        if(!patron){
+            queryUpdatePatron = `UPDATE Library_Items SET patron_id = NULL WHERE Library_Items.item_id = ?`;
+            db.pool.query(queryUpdatePatron, [item], function(error, rows, fields){
+                if (error) {
+    
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(patron + " in if statement" + error);
+                res.sendStatus(400);
+                }
+    
+                // If there was no error, we run our second query and return that data so we can use it to update the people's
+                // table on the front-end
+                else
+                {
+                    res.send(rows);
+                }
+    })
         
         
-      
+        } else{
+
         queryUpdatePatron = `UPDATE Library_Items SET patron_id = ? WHERE Library_Items.item_id = ?`;
         selectPatron = `SELECT * FROM Patrons WHERE patron_id = ?`
       
@@ -378,7 +388,13 @@ app.put('/put-patron-ajax', function(req,res,next){
                           }
                       })
                   }
-      })});
+      })
+    }
+
+
+
+
+    });
 
 
 /*

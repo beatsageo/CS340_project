@@ -13,5 +13,6 @@
     "forever": "^4.0.3",
     "mysql": "^2.18.1"
   },
+  "devDependencies": {},
   "description": ""
 }

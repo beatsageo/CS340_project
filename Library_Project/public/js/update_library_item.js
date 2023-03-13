@@ -20,7 +20,6 @@ updateLibraryItemForm.addEventListener("submit", function (e) {
     let itemIDValue = inputItemID.value;
     let patronIDValue = inputPatronID.value;
 
-
     // Put our data we want to send in a javascript object
     let data = {
         item_id: itemIDValue,
@@ -53,7 +52,7 @@ updateLibraryItemForm.addEventListener("submit", function (e) {
 
 function updateRow(data, itemID){
     let parsedData = JSON.parse(data);
-    
+
     let table = document.getElementById("library-item-table");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
@@ -69,8 +68,16 @@ function updateRow(data, itemID){
             let td2 = updateRowIndex.getElementsByTagName("td")[7];
 
             // Reassign patron_id to our value we updated to
-            td1.innerHTML = parsedData[0].first_name;
-            td2.innerHTML = parsedData[0].last_name;
+            if(typeof parsedData[0] !== 'undefined'){
+                td1.innerHTML = parsedData[0].first_name;
+                td2.innerHTML = parsedData[0].last_name;
+            } else {
+                td1.innerHTML = "";
+                td2.innerHTML = "";
+            }
        }
     }
+ 
+   
+
 }
