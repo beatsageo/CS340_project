@@ -1,3 +1,10 @@
+<!-- 
+Citation for the following code:
+Date: 3/1/2023
+Adapted from nodejs-starter-app with changes to apply to my database application
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+-->
+
 <!-- item_types.hbs -->
 <head>
     <title>Item Types</title>
@@ -5,56 +12,63 @@
 </head>
 
 <body>
+    {{!-- Title and Nav Bar --}}
+    <h1>People's Aristocratic Library: Item Types</h1>
+    <a class="top-page-links" href="/">Homepage</a>
+    <a class="top-page-links" href="/library_items">Library Items</a>
+    <a class="top-page-links" href="/patrons">Patrons</a>
+    <a class="top-page-links" href="/holds">Holds</a>
+    <a class="top-page-links" href="/item_types">Item Types</a>
+    <br><br><br>
 
-{{!-- Create a table --}}
-<table id = "item-types-table">
+    {{!-- Create a table --}}
+    <table id = "item-types-table">
 
-    {{!-- Header section --}}
-    <thead>
+        {{!-- Header section --}}
+        <thead>
 
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
+            {{!-- For just the first row, we print each key of the row object as a header cell so we
+            know what each column means when the page renders --}}
+            <tr>
+                {{#each data.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+            </tr>
+        </thead>
+
+        {{!-- Body section --}}
+        <tbody>
+
+            {{!-- For each row, print the Item Types parameters --}}
+            {{#each data}}
+            <tr data-value = {{this.item_type_id}}>
+                <td>{{this.item_type_id}}</td>
+                <td>{{this.type}}</td>
+                <td>{{this.check_out_length}}</td>
+                <td>{{this.fine_per_day}}</td>
+            </tr>
             {{/each}}
-        </tr>
-    </thead>
+        </tbody>
+    </table>
 
-    {{!-- Body section --}}
-    <tbody>
+    {{!-- Form to add an item type record to the table  --}}
+    <h2>Add an Item Type </h2>
+    <p>To add a new type, please enter the following information below and click 'Submit'!</p>
+    <form id="add-item-type-form-ajax">
+        <label for="input-type">Type: </label>
+        <input type="text" name="input-type" id="input-type">
+        
+        <label for="input-checkout-length">Checkout Length Days: </label>
+        <input type="number" min = "0" max = "90" name="input-checkout-length" id="input-checkout-length">
 
-        {{!-- For each row, print the Library_Items parameters --}}
-        {{#each data}}
-        <tr data-value = {{this.item_type_id}}>
-            <td>{{this.item_type_id}}</td>
-            <td>{{this.type}}</td>
-            <td>{{this.check_out_length}}</td>
-            <td>{{this.fine_per_day}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+        <label for="input-fine-per-day">Fine Per Day: </label>
+        <input type="number" min = "0" max = "1000000" name="input-fine-per-day" id="input-fine-per-day">
 
-<!-- /views/library_items.hbs -->
+        <input type="submit">
+    </form>
 
-{{!-- Form to add a library item type record to the table  --}}
-<h2>Add an Item Type </h2>
-<p>To add a new type, please enter the following information below and click 'Submit'!</p>
-<form id="add-item-type-form-ajax">
-    <label for="input-type">Type: </label>
-    <input type="text" name="input-type" id="input-type">
-    
-    <label for="input-checkout-length">Checkout Length: </label>
-    <input type="number" name="input-checkout-length" id="input-checkout-length">
-
-    <label for="input-fine-per-day">Fine Per Day: </label>
-    <input type="number" name="input-fine-per-day" id="input-fine-per-day">
-
-    <input type="submit">
-</form>
-
-{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
-<script src="./js/add_item_type.js"></script>
+    {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+    <script src="./js/add_item_type.js"></script>
+</body>

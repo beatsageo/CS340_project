@@ -8,7 +8,7 @@ let updatePatronForm = document.getElementById('update-patron-form-ajax');
 
 // Modify the objects we need
 updatePatronForm.addEventListener("submit", function (e) {
-   
+    
     // Prevent the form from submitting
     e.preventDefault();
 
@@ -26,8 +26,6 @@ updatePatronForm.addEventListener("submit", function (e) {
         patron_id: patronIDValue,
         fine: fineValue,
     }
-
-    console.log(data);
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -49,29 +47,26 @@ updatePatronForm.addEventListener("submit", function (e) {
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
-
-
-
-
-function updateRow(data, patronID){
     
-    let table = document.getElementById("patrons-table");
+    function updateRow(data, patronID){
+    
+        let table = document.getElementById("patrons-table");
 
-    for (let i = 0, row; row = table.rows[i]; i++) {
-       //iterate through rows
-       //rows would be accessed using the "row" variable assigned in the for loop
-       if (table.rows[i].getAttribute("data-value") == patronID) {
+        for (let i = 0, row; row = table.rows[i]; i++) {
+        //iterate through rows
+        //rows would be accessed using the "row" variable assigned in the for loop
+        if (table.rows[i].getAttribute("data-value") == patronID) {
 
-            // Get the location of the row where we found the matching item_id
-            let updateRowIndex = table.getElementsByTagName("tr")[i];
+                // Get the location of the row where we found the matching patronID
+                let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-            // Get td of patron_id
-            let td = updateRowIndex.getElementsByTagName("td")[3];
+                // Get td of fine
+                let td = updateRowIndex.getElementsByTagName("td")[3];
 
-            // Reassign patron_id to our value we updated to
-            
-            td.innerHTML = data.fine;
-       }
+                // Reassign fine value
+                td.innerHTML = data.fine;
+        }
+        }
     }
-}
+
 })

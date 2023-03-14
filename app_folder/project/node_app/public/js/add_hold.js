@@ -28,8 +28,8 @@ addHoldForm.addEventListener("submit", function (e) {
     // Put our data we want to send in a javascript object
     let data = {
         item_id: titleValue,  //Library Item ID
-        patron_id: patronValue,  /// Patron ID
-        queue_position: "1",  ///hard coded for now
+        patron_id: patronValue,  //Patron ID
+        queue_position: "1",
         hold_date: format_date,
     }
     console.log(data);
@@ -78,7 +78,8 @@ addRowToTable = (data) => {
     let newRow = parsedData[parsedData.length - 1]
     console.log('newrow data');
     console.log(newRow);
-    // Create a row and 7 cells
+    
+    // Create a row and 6 cells
     let row = document.createElement("TR");
     let holdIDCell = document.createElement("TD");
     let firstNameCell = document.createElement("TD");
@@ -112,7 +113,7 @@ addRowToTable = (data) => {
     console.log(titleCell.innerText);
     row.appendChild(titleCell);
     console.log(holdDateCell);
-    row.appendChild(holdDateCell);  ////not an object?
+    row.appendChild(holdDateCell);
     row.appendChild(queuePositionCell);
 
     // Add a row attribute so the deleteRow function can find a newly added row
@@ -121,15 +122,7 @@ addRowToTable = (data) => {
     // Add the row to the table
     currentTable.appendChild(row);
 
-     // Start of new Step 8 code for adding new data to the dropdown menu for updating people
-    
-    // Find drop down menu, create a new option, fill data in the option,
-    // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
-    // let selectMenu = document.getElementById("mySelect");
-    // let option = document.createElement("option");
-    // option.text = newRow.patron_id;
-    // option.value = newRow.patron_id;
-    // selectMenu.add(option);
-    location.reload(true);
-    // End of new step 8 code.
+     // Reload page to update dropdown menu
+     location.reload(true);
+
 }

@@ -1,4 +1,12 @@
-<!-- item_types.hbs -->
+<!-- 
+Citation for the following code:
+Date: 3/1/2023
+Adapted from nodejs-starter-app with changes to apply to my database application
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+-->
+
+<!-- patrons.hbs -->
+
 <head>
     <title>Patrons</title>
     <link href="./css/style.css" rel="stylesheet" type="text/css" />
@@ -6,77 +14,86 @@
 
 <body>
 
-{{!-- Create a table --}}
-<table id = "patrons-table">
+    {{!-- Title and Nav Bar --}}
+    <h1>People's Aristocratic Library: Patrons</h1>
+    <a class="top-page-links" href="/">Homepage</a>
+    <a class="top-page-links" href="/library_items">Library Items</a>
+    <a class="top-page-links" href="/patrons">Patrons</a>
+    <a class="top-page-links" href="/holds">Holds</a>
+    <a class="top-page-links" href="/item_types">Item Types</a>
+    <br><br><br>
 
-    {{!-- Header section --}}
-    <thead>
+    {{!-- Create a table --}}
+    <table id = "patrons-table">
 
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
+        {{!-- Header section --}}
+        <thead>
+
+            {{!-- For just the first row, we print each key of the row object as a header cell so we
+            know what each column means when the page renders --}}
+            <tr>
+                {{#each data.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+            </tr>
+        </thead>
+
+        {{!-- Body section --}}
+        <tbody>
+
+            {{!-- For each row, print the Patrons parameters --}}
+            {{#each data}}
+            <tr data-value = {{this.patron_id}}>
+                <td>{{this.patron_id}}</td>
+                <td>{{this.first_name}}</td>
+                <td>{{this.last_name}}</td>
+                <td>{{this.fine}}</td>
+            </tr>
             {{/each}}
-        </tr>
-    </thead>
+        </tbody>
+    </table>
 
-    {{!-- Body section --}}
-    <tbody>
+    {{!-- Form to add a Patron record to the table  --}}
+    <h2>Add a Patron </h2>
+    <p>To add a new patron, please enter the following information below and click 'Submit'!</p>
+    <form id="add-patron-form-ajax">
+        <label for="input-first-name">First Name: </label>
+        <input type="text" name="input-first-name" id="input-first-name">
+        
+        <label for="input-last-name">Last Name: </label>
+        <input type="text" name="input-last-name" id="input-last-name">
 
-        {{!-- For each row, print the Library_Items parameters --}}
-        {{#each data}}
-        <tr data-value = {{this.patron_id}}>
-            <td>{{this.patron_id}}</td>
-            <td>{{this.first_name}}</td>
-            <td>{{this.last_name}}</td>
-            <td>{{this.fine}}</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+        <label for="input-fine">Fine: </label>
+        <input type="number" min = "0" max = "1000000" name="input-fine" id="input-fine">
 
-<!-- /views/library_items.hbs -->
+        <input type="submit">
+    </form>
 
-{{!-- Form to add a Patron record to the table  --}}
-<h2>Add a Patron </h2>
-<p>To add a new patron, please enter the following information below and click 'Submit'!</p>
-<form id="add-patron-form-ajax">
-    <label for="input-first-name">First Name: </label>
-    <input type="text" name="input-first-name" id="input-first-name">
-    
-    <label for="input-last-name">Last Name: </label>
-    <input type="text" name="input-last-name" id="input-last-name">
+    {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+    <script src="./js/add_patron.js"></script>
 
-    <label for="input-fine">Fine: </label>
-    <input type="number" name="input-fine" id="input-fine">
+    {{!-- Form to update a Patron's fine  --}}
+    <h2>Updating Fine for a Patron</h2>
+    <p>To update the fine, select the patron from the drop-down menu and enter the updated fine.</p>
+    <form id="update-patron-form-ajax">
 
-    <input type="submit">
-</form>
+        <label for="input-patron_id">Patron: </label>
+        <select name="input-patron_id" id="mySelect">
+            <option value="test">Select a Patron</option>
+            {{#each data}}
+            <option value="{{this.patron_id}}">{{this.first_name}} {{this.last_name}}</option>
+            {{/each}}
+        </select>
 
-{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
-<script src="./js/add_patron.js"></script>
+        <label for="input-fine-update">Fine: </label>
+        <input type="number" name="input-fine-update" min = "0" max = "1000000" id="input-fine-update">
 
-<h2>Updating Fine for a Patron</h2>
-<p>To update the fine, select the patron from the drop-down menu on the left and the fine from the drop down menu on the right</p>
-<form id="update-patron-form-ajax">
+        <input type="submit">
 
-    <label for="input-patron_id">Patron: </label>
-    <select name="input-patron_id" id="mySelect">
-        <option value="test">Select a Patron</option>
-        {{#each data}}
-        <option value="{{this.patron_id}}">{{this.first_name}} {{this.last_name}}</option>
-        {{/each}}
-    </select>
-
-    <label for="input-fine-update">Fine: </label>
-    <input type="number" name="input-fine-update" id="input-fine-update">
-
-    <input type="submit">
-
-</form>
+    </form>
 </body>
 
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/update_patron.js"></script>

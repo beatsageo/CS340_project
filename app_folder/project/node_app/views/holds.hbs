@@ -1,3 +1,10 @@
+<!-- 
+Citation for the following code:
+Date: 3/1/2023
+Adapted from nodejs-starter-app with changes to apply to my database application
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+-->
+
 <!-- item_types.hbs -->
 <head>
     <title>Holds</title>
@@ -6,97 +13,102 @@
 
 <body>
 
-{{!-- Create a table --}}
-<table id = "holds-table">
+    {{!-- Title and Nav Bar --}}
+    <h1>People's Aristocratic Library: Holds</h1>
+    <a class="top-page-links" href="/">Homepage</a>
+    <a class="top-page-links" href="/library_items">Library Items</a>
+    <a class="top-page-links" href="/patrons">Patrons</a>
+    <a class="top-page-links" href="/holds">Holds</a>
+    <a class="top-page-links" href="/item_types">Item Types</a>
+    <br><br><br>
 
-    {{!-- Header section --}}
-    <thead>
+    {{!-- Create a table --}}
+    <table id = "holds-table">
 
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
-        <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
+        {{!-- Header section --}}
+        <thead>
+
+            {{!-- For just the first row, we print each key of the row object as a header cell so we
+            know what each column means when the page renders --}}
+            <tr>
+                {{#each data.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+                <th>delete</th>
+            </tr>
+        </thead>
+
+        {{!-- Body section --}}
+        <tbody>
+
+            {{!-- For each row, print the hold parameters --}}
+            {{#each data}}
+            <tr data-value = {{this.hold_id}}>
+                <td>{{this.hold_id}}</td>
+                <td>{{this.first_name}}</td>
+                <td>{{this.last_name}}</td>
+                <td>{{this.title}}</td>
+                <td>{{this.hold_date}}</td>
+                <td>{{this.queue_position}}</td>
+                <td><button onclick="deleteHold({{this.hold_id}})">Delete</button></td>
+            </tr>
             {{/each}}
-            <th>delete</th>
-        </tr>
-    </thead>
+        </tbody>
+    </table>
+    
+    {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+    <script src="./js/delete_hold.js"></script>
 
-    {{!-- Body section --}}
-    <tbody>
+    {{!-- Form to add a hold record to a library item  --}}
+    <h1>Add a Hold </h1>
+    <p>To add a Hold, please enter the following information below and click 'Submit'!</p>
+    <form id="add-hold-form-ajax">
 
-        {{!-- For each row, print the hold parameters --}}
-        {{#each data}}
-        <tr data-value = {{this.hold_id}}>
-            <td>{{this.hold_id}}</td>
-            <td>{{this.first_name}}</td>
-            <td>{{this.last_name}}</td>
-            <td>{{this.title}}</td>
-            <td>{{this.hold_date}}</td>
-            <td>{{this.queue_position}}</td>
-            <td><button onclick="deleteHold({{this.hold_id}})">Delete</button></td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+        <label for="input-item_id">Library Item:</label>
+        <select name="input-item_id" id="input-library_items">
+            <option value="test">Select a Library Item</option>
+            {{#each library_items}}
+            <option value="{{this.item_id}}">{{this.title}}</option>
+            {{/each}}
+        </select>
 
-<script src="./js/delete_hold.js"></script>
-<!-- /views/holds.hbs -->
+        <label for="input-patron_id">Patron Name: </label>
+        <select name="input-patron_id" id="input-patron_id">
+            <option value = "input-patron" >Select a Patron</option>
+            {{#each patrons}}
+            <option value="{{this.patron_id}}">{{this.first_name}} {{this.last_name}}</option>
+            {{/each}}
+        </select>
+        <input type="submit">
+    </form>
 
-{{!-- Form to add a hold record to a library item  --}}
-<h1>Add a Hold </h1>
-<p>To add a Hold, please enter the following information below and click 'Submit'!</p>
-<form id="add-hold-form-ajax">
+    {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+    <script src="./js/add_hold.js"></script>
 
-    <label for="input-item_id">Library Item Title: </label>
-    <select name="input-item_id" id="input-library_items">
-        <option value="test">Select a Library Item</option>
-        {{#each library_items}}
-        <option value="{{this.item_id}}">{{this.title}}</option>
-        {{/each}}
-    </select>
+    {{!-- Form to update queue position on a hold --}}
+    <h2>Updating Queue Position for a Hold</h2>
+    <p>To update a Holds's position, select the hold ID and enter the upated queue position.</p>
+    <form id="update-hold-queue-form-ajax">
 
-    <label for="input-patron_id">Patron Name: </label>
-    <select name="input-patron_id" id="input-patron_id">
-        <option value = "input-patron" >Select a Patron</option>
-        {{#each patrons}}
-        <option value="{{this.patron_id}}">{{this.first_name}} {{this.last_name}}</option>
-        {{/each}}
-    </select>
-    <input type="submit">
-</form>
-</body>
-{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
-<script src="./js/add_hold.js"></script>
+        <label for="input-hold_id">Hold ID:</label>
+        <select name="input-hold_id" id="input-hold_id">
+            <option value="test">Select a Hold ID</option>
+            {{#each data}}
+            <option value="{{this.hold_id}}">{{this.hold_id}}</option>
+            {{/each}}
+        </select>
 
-<h2>Updating Queue Position for a Hold</h2>
-<p>To update a Holds's possion, select the hold ID from the dropdown and choose a position</p>
-<form id="update-hold-queue-form-ajax">
+        <label for="input-queue_position">Queue Position: </label>
+        <input type="number" name="input-queue_position" min = "0" id="input-queue_position">
 
-    <label for="input-hold_id">Library Item Title: </label>
-    <select name="input-hold_id" id="input-hold_id">
-        <option value="test">Select a Hold ID</option>
-        {{#each data}}
-        <option value="{{this.hold_id}}">{{this.hold_id}}</option>
-        {{/each}}
-    </select>
+        <input type="submit">
 
-    <label for="input-queue_position">Queue Position: </label>
-    <select name="input-queue_position" id="input-queue_position">
-        <option value = NULL >Select A New Position</option>
-        <option value = 1 >1</option>
-        <option value = 2 >2</option>
-        <option value = 3 >3</option>
-        <option value = 4 >4</option>
-        <option value = 5 >5</option>
-        <option value = 6 >6</option>
+    </form>
 
-    </select>
-    <input type="submit">
+    {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+    <script src="./js/update_hold.js"></script>
 
-</form>
 </body>
 
-<script src="./js/update_hold.js"></script>

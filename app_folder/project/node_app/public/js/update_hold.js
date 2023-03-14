@@ -1,3 +1,10 @@
+/*
+Citation for the following code:
+Date: 3/1/2023
+Adapted from nodejs-starter-app with changes to apply to my database application
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+*/
+
 // Get the objects we need to modify
 let updateHoldsQueueForm = document.getElementById('update-hold-queue-form-ajax');
 
@@ -20,7 +27,7 @@ updateHoldsQueueForm.addEventListener("submit", function (e) {
         hold_id: holdIDValue,
         queue_position: QueuePositionValue,
     }
-    console.log(data);
+
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("PUT", "/put-hold-ajax", true);
@@ -46,8 +53,7 @@ updateHoldsQueueForm.addEventListener("submit", function (e) {
 
 
 function updateRow(data, holdID){
-    //let parsedData = JSON.parse(data);
-    //console.log(parsedData);
+
     let table = document.getElementById("holds-table");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
@@ -66,8 +72,8 @@ function updateRow(data, holdID){
             td1.innerHTML = data.queue_position;
             console.log(data.queue_position);
        }
-    }
- 
-   
+    }  
 
+    location.reload(true);
+    
 }

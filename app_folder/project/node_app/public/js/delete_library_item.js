@@ -37,8 +37,13 @@ function deleteRow(itemID){
        //iterate through rows
        //rows would be accessed using the "row" variable assigned in the for loop
        if (table.rows[i].getAttribute("data-value") == itemID) {
+            // delete row with matching item id
             table.deleteRow(i);
             break;
        }
     }
+    
+    // reload page to update dropdown menu
+    location.reload();
+
 }
