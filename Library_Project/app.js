@@ -318,7 +318,7 @@ app.put('/put-patron-ajax', function(req,res,next){
     let queryUpdateFine = `UPDATE Patrons SET fine = ? WHERE Patrons.patron_id = ?`;
     
     // Run the query
-    db.pool.query(queryUpdateFine, [patron, fine], function(error, rows, fields){
+    db.pool.query(queryUpdateFine, [fine, patron], function(error, rows, fields){
         if (error) {
       
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -353,7 +353,6 @@ app.put('/put-library-item-ajax', function(req,res,next){
             if (error) {
 
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(patron + " in if statement" + error);
             res.sendStatus(400);
             }
 

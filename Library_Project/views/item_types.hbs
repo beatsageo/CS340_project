@@ -60,11 +60,11 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
         <label for="input-type">Type: </label>
         <input type="text" name="input-type" id="input-type">
         
-        <label for="input-checkout-length">Checkout Length: </label>
-        <input type="number" name="input-checkout-length" id="input-checkout-length">
+        <label for="input-checkout-length">Checkout Length Days: </label>
+        <input type="number" min = "0" max = "90" name="input-checkout-length" id="input-checkout-length">
 
         <label for="input-fine-per-day">Fine Per Day: </label>
-        <input type="number" name="input-fine-per-day" id="input-fine-per-day">
+        <input type="number" min = "0" max = "1000000" name="input-fine-per-day" id="input-fine-per-day">
 
         <input type="submit">
     </form>
