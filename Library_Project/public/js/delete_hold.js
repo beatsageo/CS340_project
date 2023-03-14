@@ -4,11 +4,12 @@
 //Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 
 function deleteHold(holdID) {
+    
     // Put our data we want to send in a javascript object
     let data = {
         hold_id: holdID
     };
-    console.log(data);
+
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("DELETE", "/delete-hold-ajax", true);
@@ -31,14 +32,16 @@ function deleteHold(holdID) {
 }
 
 function deleteRow(holdID){
-
     let table = document.getElementById("holds-table");
     for (let i = 0, row; row = table.rows[i]; i++) {
-       //iterate through rows
+       //iterate through rows to find row with matching hold id and remove that row
        //rows would be accessed using the "row" variable assigned in the for loop
        if (table.rows[i].getAttribute("data-value") == holdID) {
             table.deleteRow(i);
             break;
        }
     }
+
+    // reload page to update dropdown menu
+    location.reload();
 }

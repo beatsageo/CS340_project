@@ -1,6 +1,7 @@
 -- Abiblophilia Anonymous Data Manipulation Queries
 -- Team Number: 35
 -- Names: Maya D'Souza, Nathan Huffman
+-- Description: These queries will be used in our CS340 Portfolio Project to create the functionality in our database website.
 
 -----------------------------------------------
 -- Create queries where : indicates variable with data from backend
@@ -22,50 +23,44 @@ VALUES (:first_name_input, :last_name_input, :fine_amount_input);
 INSERT INTO Holds (hold_date, queue_position, item_id, patron_id)
 VALUES (curdate(), get_next_queue_position(), :item_type_id_from_dropdown_input, :patron_id_from_dropdown_input);
 
--- get next queue position function for adding a hold *To be implemented*
--- this function will select next hold by finding max queue
--- position with matching library_item_id in Holds and adding 1
-
 -----------------------------------------------
 -- Retrieve queries
 -----------------------------------------------
 
--- show all Item_Types
+-- select all Item_Types
 SELECT * from Item_Types;
 
--- show all Library_Items
+-- select all Library_Items
 SELECT * from Library_Items;
 
--- show all Holds
+-- select all Holds
 SELECT * from Holds;
 
--- show all Patrons
+-- select all Patrons
 SELECT * from Patrons;
 
--- populate type dropdown
-SELECT type FROM Item_Types;
+-- display all Library_Items, replace FK's to make table user-friendly
+Select item_id, title, genre, author, year, type, first_name, last_name from Library_Items LEFT JOIN Patrons ON Library_Items.patron_id = Patrons.patron_id LEFT JOIN Item_Types on Library_Items.item_type_id = Item_Types.item_type_id;
 
--- populate patron_id dropdown
-SELECT patron_id from Patrons;
+-- display all Holds, replace FK's to make table user-friendly
+Select hold_id, first_name, last_name, title, hold_date, queue_position from Holds LEFT JOIN Patrons ON Patrons.patron_id = Holds.patron_id LEFT JOIN Library_Items on Library_Items.item_id = Holds.item_id;
 
--- populate hold_id dropdown
-SELECT hold_id from Holds;
-
--- populate item_id dropdown
-SELECT item_id from Library_Items;
+-- select patron with matching id
+SELECT * FROM Patrons WHERE patron_id = :patron_id
 
 -----------------------------------------------
 -- Update queries where : indicates variable with data from backend
 -----------------------------------------------
 
 -- update queue position on a hold
-UPDATE Holds SET queue_position = queue_position - 1 WHERE hold_id = :hold_id_from _update_from
+UPDATE Holds SET queue_position = :queue_position_from_update_form WHERE hold_id = :hold_id_from _update_form
 
 -- update patron_id on a library_item (checked back in = NULL, or change when a new person checks it out)
-UPDATE Patrons SET patron_id = :patron_id_from_dropdown_input WHERE item_id = :item_id_from_update_form
+UPDATE Library_Items SET patron_id = NULL WHERE Library_Items.item_id = :item_id_from_update_form
+UPDATE Library_Items SET patron_id = :patron_id_from_update_form WHERE Library_Items.item_id = :item_id_from_update_form
 
 -- update fine associated with a patron (when they pay off or acquire new fines)
-UPDATE Patrons SET fine = :fine WHERE patron_id = :patron_id_from_update_form
+UPDATE Patrons SET fine = :fine_from_update_form WHERE patron_id = :patron_id_from_update_form
 
 -----------------------------------------------
 -- Delete queries where : indicates variable with data from backend
@@ -76,9 +71,3 @@ DELETE FROM Holds WHERE hold_id = :hold_id_selected_from_holds_page
 
 -- delete library item with matching id
 DELETE FROM Library_Items WHERE item_id = :item_id_selected_from_library_items_page
-
--- delete patron with matching id
-DELETE FROM Patrons WHERE patron_id = :patron_id_selected_from_patrons_page
-
--- delete item type with matching id
-DELETE FROM Item_Types WHERE item_type_id = :item_type_id_selected_from_item_types_page

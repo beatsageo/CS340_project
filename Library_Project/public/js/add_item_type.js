@@ -58,7 +58,7 @@ addItemTypeForm.addEventListener("submit", function (e) {
 
 
 // Creates a single row from an Object representing a single record from 
-// Library_Items
+// Item_Types
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
@@ -71,7 +71,7 @@ addRowToTable = (data) => {
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
-    // Create a row and 7 cells
+    // Create a row and 4 cells
     let row = document.createElement("TR");
     let itemTypeIDCell = document.createElement("TD");
     let typeCell = document.createElement("TD");
@@ -106,15 +106,8 @@ addRowToTable = (data) => {
     // Add the row to the table
     currentTable.appendChild(row);
 
-     // Start of new Step 8 code for adding new data to the dropdown menu for updating people
+    // Code to add data to the dropdown menu
     
-    // Find drop down menu, create a new option, fill data in the option,
-    // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
-    let selectMenu = document.getElementById("mySelect");
-    let option = document.createElement("option");
-    option.text = newRow.item_type_id;
-    option.value = newRow.item_type_id;
-    selectMenu.add(option);
+    // Update dropdown
     location.reload(true);
-    // End of new step 8 code.
 }

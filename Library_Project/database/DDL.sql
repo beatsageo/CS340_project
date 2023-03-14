@@ -1,4 +1,4 @@
--- Abiblophilia Anonymous Schema Created Using MySQL Workbench with Sample Data
+-- Abiblophilia Anonymous Data Definition Queries for CS340 Portfolio Project
 -- Team Number: 35
 -- Names: Maya D'Souza, Nathan Huffman
 
@@ -52,7 +52,7 @@ CREATE OR REPLACE TABLE Library_Items (
 CREATE OR REPLACE TABLE Holds (
   hold_id INT NOT NULL UNIQUE AUTO_INCREMENT,
   hold_date DATETIME NOT NULL,
-  queue_position INT NULL, 
+  queue_position INT NOT NULL, 
   item_id INT NOT NULL,
   patron_id INT NOT NULL,
   PRIMARY KEY (hold_id),

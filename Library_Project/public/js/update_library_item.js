@@ -67,7 +67,7 @@ function updateRow(data, itemID){
             let td1 = updateRowIndex.getElementsByTagName("td")[6];
             let td2 = updateRowIndex.getElementsByTagName("td")[7];
 
-            // Reassign patron_id to our value we updated to
+            // Reassign patron name (new first and last name or "" if none selected)
             if(typeof parsedData[0] !== 'undefined'){
                 td1.innerHTML = parsedData[0].first_name;
                 td2.innerHTML = parsedData[0].last_name;
@@ -76,8 +76,8 @@ function updateRow(data, itemID){
                 td2.innerHTML = "";
             }
        }
-    }
- 
-   
+    }  
 
+    location.reload(true);
+    
 }
